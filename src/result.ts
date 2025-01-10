@@ -522,7 +522,8 @@ Result.any = any;
 
 /**
  * Creates an `Ok<T>` value, which can be used where a `Result<T, E>` is
- * required. See Result for more examples.
+ * required. The parameterless overload `Ok()` produces an `Ok<void>` for when
+ * a valueless `Result` is desired. See Result for more examples.
  *
  * Note that the counterpart `Err` type `E` is set to the same type as `T`
  * by default. TypeScript will usually infer the correct `E` type from the
@@ -534,8 +535,10 @@ Result.any = any;
  * assert.equal(x.unwrap(), 10);
  * ```
  */
-export function Ok<T>(val: T): Ok<T> {
-   return new ResultType<T, never>(val, true);
+export function Ok(): Ok<void>
+export function Ok<T>(val: T): Ok<T>
+export function Ok<T>(val?: T): Ok<T | void> {
+   return new ResultType<T | void, never>(val, true);
 }
 
 /**
